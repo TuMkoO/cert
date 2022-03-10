@@ -18,7 +18,8 @@ class UserController {
         httpOnly: true,
         secure: true,
         sameSite: "none",
-        domain: ".edo.naks-donbass.ru",
+        domain: ".naks-donbass.ru",
+        path: "/api/auth",
       });
 
       return res.json(userData);
@@ -36,7 +37,8 @@ class UserController {
         httpOnly: true,
         secure: true,
         sameSite: "none",
-        domain: ".edo.naks-donbass.ru",
+        domain: ".naks-donbass.ru",
+        path: "/api/auth",
       });
       return res.json(userData);
     } catch (e) {
@@ -113,7 +115,8 @@ class UserController {
         httpOnly: true,
         secure: true,
         sameSite: "none",
-        domain: ".edo.naks-donbass.ru",
+        domain: ".naks-donbass.ru",
+        path: "/api/auth",
       });
       return res.json(userData);
     } catch (e) {
