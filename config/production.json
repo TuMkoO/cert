@@ -1,0 +1,8 @@
+{
+  "port": 80,
+  "jwtSecret": "some secret key",
+  "jwtRefreshSecret": "some refresh secret key",
+  "mongoUri": "mongodb+srv://naks:tZuigh5By8g@certificates.o0osp.mongodb.net/app?retryWrites=true&w=majority",
+  "baseUrl": "http://localhost:5000",
+  "clientUrl": "http://edo.naks-donbass.ru"
+}
