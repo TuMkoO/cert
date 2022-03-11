@@ -16,7 +16,7 @@ class UserController {
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        secure: false,
+        secure: true,
         sameSite: "none",
         domain: "naks-donbass.ru",
         path: "/api/auth",
@@ -35,7 +35,7 @@ class UserController {
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        secure: false,
+        secure: true,
         sameSite: "none",
         domain: "naks-donbass.ru",
         path: "/api/auth",
@@ -113,7 +113,7 @@ class UserController {
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        secure: false,
+        secure: true,
         sameSite: "none",
         domain: "naks-donbass.ru",
         path: "/api/auth",
