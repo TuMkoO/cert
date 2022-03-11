@@ -18,7 +18,7 @@ class UserController {
         // httpOnly: true,
         // secure: false,
         // sameSite: "none",
-        domain: "naks-donbass.ru",
+        // domain: "naks-donbass.ru",
         // path: "/api/auth",
       });
 
@@ -37,7 +37,7 @@ class UserController {
         // httpOnly: true,
         // secure: false,
         // sameSite: "none",
-        domain: "naks-donbass.ru",
+        // domain: "naks-donbass.ru",
         // path: "/api/auth",
       });
       return res.json(userData);
@@ -112,7 +112,7 @@ class UserController {
 
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
-        // httpOnly: true,
+        httpOnly: true,
         // secure: false,
         // sameSite: "none",
         domain: "naks-donbass.ru",
