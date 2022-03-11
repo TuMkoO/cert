@@ -18,7 +18,7 @@ class UserController {
         // httpOnly: true,
         // secure: false,
         // sameSite: "none",
-        // domain: "naks-donbass.ru",
+        domain: "naks-donbass.ru",
         // path: "/api/auth",
       });
 
@@ -37,7 +37,7 @@ class UserController {
         // httpOnly: true,
         // secure: false,
         // sameSite: "none",
-        // domain: "naks-donbass.ru",
+        domain: "naks-donbass.ru",
         // path: "/api/auth",
       });
       return res.json(userData);
@@ -115,7 +115,7 @@ class UserController {
         // httpOnly: true,
         // secure: false,
         // sameSite: "none",
-        // domain: "naks-donbass.ru",
+        domain: "naks-donbass.ru",
         // path: "/api/auth",
       });
       return res.json(userData);

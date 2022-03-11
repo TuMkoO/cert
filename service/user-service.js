@@ -111,7 +111,7 @@ class UserService {
     console.log("user-service/refresh userData:::", userData);
 
     const tokenFromDb = await tokenService.findToken(refreshToken);
-    console.log("user-service/refresh tokenFromDb:::", tokenFromDb);
+    console.log("user-service/refresh tokenFromDb:::", tokenFromDb); //null
 
     if (!userData || !tokenFromDb) {
       console.log("ОШИБКА!");
