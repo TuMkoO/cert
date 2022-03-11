@@ -102,28 +102,28 @@ class UserService {
   }
 
   async refresh(refreshToken) {
-    // console.log("user-service/refresh refreshToken===", refreshToken); // приходит токен
+    console.log("user-service/refresh refreshToken===", refreshToken); // приходит токен
     if (!refreshToken) {
       throw ApiError.UnauthorizedError();
     }
 
     const userData = tokenService.validateRefreshToken(refreshToken);
-    // console.log("user-service/refresh userData:::", userData);
+    console.log("user-service/refresh userData:::", userData);
 
     const tokenFromDb = await tokenService.findToken(refreshToken);
-    // console.log("user-service/refresh tokenFromDb:::", tokenFromDb);
+    console.log("user-service/refresh tokenFromDb:::", tokenFromDb);
 
     if (!userData || !tokenFromDb) {
-      // console.log("ОШИБКА!");
+      console.log("ОШИБКА!");
       throw ApiError.UnauthorizedError();
     }
-    // console.log("userData.id::", userData.id);
+    console.log("user-service/refresh userData.id::", userData.id);
     const user = await User.findById(userData.id);
-    // console.log("user:::", user);
+    console.log("user-service/refresh user:::", user);
     const userDto = new UserDto(user);
-    // console.log("userDto::: ", userDto);
+    console.log("user-service/refresh userDto::: ", userDto);
     const tokens = tokenService.generateTokens({ ...userDto });
-    // console.log("user-service/refresh tokens:::", tokens);
+    console.log("user-service/refresh tokens:::", tokens);
 
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
     return { ...tokens, user: userDto };

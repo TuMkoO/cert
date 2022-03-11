@@ -101,14 +101,14 @@ class UserController {
   // }
 
   async refresh(req, res, next) {
-    // console.log("refresh req::: ", req);
-    // console.log("refresh req.cookies::: ", req.cookies);
+    console.log("user-controller/refresh req::: ", req);
+    console.log("user-controller/refresh req.cookies::: ", req.cookies);
     try {
       const { refreshToken } = req.cookies;
-      // console.log("user-controller/refresh refreshToken===", refreshToken); // токен проходит
+      console.log("user-controller/refresh refreshToken===", refreshToken); // токен проходит
 
       const userData = await userService.refresh(refreshToken);
-      // console.log("user-controller/refresh userData===", userData); // сюда не доходит...
+      console.log("user-controller/refresh userData===", userData); // сюда не доходит...
 
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
