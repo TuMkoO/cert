@@ -19,6 +19,7 @@ class UserController {
         // secure: false,
         // sameSite: "none",
         domain: "naks-donbass.ru",
+        // domain: "localhost",
         // path: "/api/auth",
       });
 
@@ -38,6 +39,7 @@ class UserController {
         // secure: false,
         // sameSite: "none",
         domain: "naks-donbass.ru",
+        // domain: "localhost",
         // path: "/api/auth",
       });
       return res.json(userData);
@@ -83,7 +85,11 @@ class UserController {
     try {
       const { refreshToken } = req.cookies;
       const token = await userService.logout(refreshToken);
-      res.clearCookie("refreshToken");
+      res.clearCookie("refreshToken", {
+        httpOnly: true,
+        domain: "naks-donbass.ru",
+        // domain: "localhost",
+      });
       return res.json(token);
     } catch (e) {
       next(e);
@@ -116,6 +122,7 @@ class UserController {
         // secure: false,
         // sameSite: "none",
         domain: "naks-donbass.ru",
+        // domain: "localhost",
         // path: "/api/auth",
       });
       return res.json(userData);
