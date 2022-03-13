@@ -18,8 +18,12 @@ class UserController {
         httpOnly: true,
         // secure: false,
         // sameSite: "none",
-        domain: "naks-donbass.ru",
+        // domain: "naks-donbass.ru",
         // domain: "localhost",
+        domain:
+          process.env.NODE_ENV === "production"
+            ? "naks-donbass.ru"
+            : "localhost",
         // path: "/api/auth",
       });
 
@@ -38,8 +42,12 @@ class UserController {
         httpOnly: true,
         // secure: false,
         // sameSite: "none",
-        domain: "naks-donbass.ru",
+        // domain: "naks-donbass.ru",
         // domain: "localhost",
+        domain:
+          process.env.NODE_ENV === "production"
+            ? "naks-donbass.ru"
+            : "localhost",
         // path: "/api/auth",
       });
       return res.json(userData);
@@ -87,8 +95,12 @@ class UserController {
       const token = await userService.logout(refreshToken);
       res.clearCookie("refreshToken", {
         httpOnly: true,
-        domain: "naks-donbass.ru",
+        // domain: "naks-donbass.ru",
         // domain: "localhost",
+        domain:
+          process.env.NODE_ENV === "production"
+            ? "naks-donbass.ru"
+            : "localhost",
       });
       return res.json(token);
     } catch (e) {
@@ -121,8 +133,12 @@ class UserController {
         httpOnly: true,
         // secure: false,
         // sameSite: "none",
-        domain: "naks-donbass.ru",
+        // domain: "naks-donbass.ru",
         // domain: "localhost",
+        domain:
+          process.env.NODE_ENV === "production"
+            ? "naks-donbass.ru"
+            : "localhost",
         // path: "/api/auth",
       });
       return res.json(userData);
