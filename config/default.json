@@ -1,7 +1,7 @@
 {
   "port": 5000,
-  "jwtSecret": "some secret key",
-  "jwtRefreshSecret": "some refresh secret key",
+  "jwtSecret": "5kM4CFoXCr3liA5XBXdYGs9wCm1J9LXg",
+  "jwtRefreshSecret": "ZiTQ3zrfI2BPe5IbvtFNQc3bKUoBlFHV",
   "mongoUri": "mongodb+srv://naks:tZuigh5By8g@certificates.o0osp.mongodb.net/app?retryWrites=true&w=majority",
   "baseUrl": "http://localhost:5000",
   "clientUrl": "http://localhost:8080"

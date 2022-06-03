@@ -18,6 +18,7 @@ app.use(
 
 app.use("/api/auth", require("./routes/auth.routes"));
 app.use("/api/certificate", require("./routes/certificate.routes"));
+app.use("/api/certificate-sub", require("./routes/certificateSub.routes"));
 app.use(
   "/api/certificate-access",
   require("./routes/certificateAccess.routes")

@@ -1,48 +1,37 @@
 const User = require("../models/User");
+const Role = require("../models/Role");
 const Token = require("../models/Token");
 const bcrypt = require("bcryptjs");
-const uuid = require("uuid");
 const tokenService = require("./token-service");
 const UserDto = require("../dtos/user-dto");
 const ApiError = require("../exceptions/api-error");
 
 class UserService {
-  async registration(email, password, name) {
+  async registration(email, password, name, role) {
     const candidate = await User.findOne({ email });
     if (candidate) {
       throw ApiError.BadRequest(
         `Пользователь с почтовым адресом ${email} уже существует`
       );
     }
+
+    const userRole = await Role.findOne({ value: role });
     const hashPassword = await bcrypt.hash(password, 3);
-    const activationLink = uuid.v4(); // v34fa-asfasf-142saf-sa-asf
 
     const user = await User.create({
       email,
       password: hashPassword,
       name,
-      activationLink,
+      roles: [userRole.value],
     });
-    // await mailService.sendActivationMail(
-    //   email,
-    //   `${process.env.API_URL}/api/auth/activate/${activationLink}`
-    // );
 
-    const userDto = new UserDto(user); // id, email, name, isActivated
-    const tokens = tokenService.generateTokens({ ...userDto });
-    await tokenService.saveToken(userDto.id, tokens.refreshToken);
+    // const userDto = new UserDto(user); // id, email, role
+    // const tokens = tokenService.generateTokens({ ...userDto });
+    // await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
-    return { ...tokens, user: userDto };
+    // return { ...tokens, user: userDto };
+    return user;
   }
-
-  // async activate(activationLink) {
-  //   const user = await User.findOne({ activationLink });
-  //   if (!user) {
-  //     throw ApiError.BadRequest("Неккоректная ссылка активации");
-  //   }
-  //   user.isActivated = true;
-  //   await user.save();
-  // }
 
   async login(email, password) {
     const user = await User.findOne({ email });
@@ -66,10 +55,10 @@ class UserService {
     return token;
   }
 
-  async update(id, email, name) {
+  async update(id, email, name, role) {
     const user = await User.findByIdAndUpdate(
       id,
-      { email, name },
+      { email, name, roles: [role] },
       { new: true }
     );
 
@@ -101,29 +90,36 @@ class UserService {
     }
   }
 
+  async delete(id) {
+    await User.findByIdAndDelete(id);
+
+    return;
+    // res.status(200).json({ message: "Пользователь успешно удален!" });
+  }
+
   async refresh(refreshToken) {
-    console.log("user-service/refresh refreshToken===", refreshToken); // приходит токен
+    //console.log("user-service/refresh refreshToken===", refreshToken); // приходит токен
     if (!refreshToken) {
       throw ApiError.UnauthorizedError();
     }
 
     const userData = tokenService.validateRefreshToken(refreshToken);
-    console.log("user-service/refresh userData:::", userData);
+    //console.log("user-service/refresh userData:::", userData);
 
     const tokenFromDb = await tokenService.findToken(refreshToken);
-    console.log("user-service/refresh tokenFromDb:::", tokenFromDb); //null
+    //console.log("user-service/refresh tokenFromDb:::", tokenFromDb); //null
 
     if (!userData || !tokenFromDb) {
-      console.log("ОШИБКА!");
+      //console.log("ОШИБКА!");
       throw ApiError.UnauthorizedError();
     }
-    console.log("user-service/refresh userData.id::", userData.id);
+    //console.log("user-service/refresh userData.id::", userData.id);
     const user = await User.findById(userData.id);
-    console.log("user-service/refresh user:::", user);
+    // console.log("user-service/refresh user:::", user);
     const userDto = new UserDto(user);
-    console.log("user-service/refresh userDto::: ", userDto);
+    //console.log("user-service/refresh userDto::: ", userDto);
     const tokens = tokenService.generateTokens({ ...userDto });
-    console.log("user-service/refresh tokens:::", tokens);
+    //console.log("user-service/refresh tokens:::", tokens);
 
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
     return { ...tokens, user: userDto };

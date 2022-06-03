@@ -1,3 +1,4 @@
+const Role = require("../models/Role");
 const userService = require("../service/user-service");
 const { validationResult } = require("express-validator");
 const ApiError = require("../exceptions/api-error");
@@ -11,21 +12,14 @@ class UserController {
           ApiError.BadRequest("Ошибка при валидации", errors.array())
         );
       }
-      const { email, password, name } = req.body;
-      const userData = await userService.registration(email, password, name);
-      res.cookie("refreshToken", userData.refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-        // secure: false,
-        // sameSite: "none",
-        // domain: "naks-donbass.ru",
-        // domain: "localhost",
-        domain:
-          process.env.NODE_ENV === "production"
-            ? "naks-donbass.ru"
-            : "localhost",
-        // path: "/api/auth",
-      });
+      const { email, password, name, role } = req.body;
+
+      const userData = await userService.registration(
+        email,
+        password,
+        name,
+        role
+      );
 
       return res.json(userData);
     } catch (e) {
@@ -40,15 +34,10 @@ class UserController {
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        // secure: false,
-        // sameSite: "none",
-        // domain: "naks-donbass.ru",
-        // domain: "localhost",
         domain:
           process.env.NODE_ENV === "production"
             ? "naks-donbass.ru"
             : "localhost",
-        // path: "/api/auth",
       });
       return res.json(userData);
     } catch (e) {
@@ -59,8 +48,8 @@ class UserController {
   async update(req, res) {
     try {
       // console.log("req.body :::= ", req.body);
-      const { id, email, name } = req.body;
-      const userData = await userService.update(id, email, name);
+      const { id, email, name, role } = req.body;
+      const userData = await userService.update(id, email, name, role);
 
       return res.json(userData);
     } catch (e) {
@@ -95,8 +84,6 @@ class UserController {
       const token = await userService.logout(refreshToken);
       res.clearCookie("refreshToken", {
         httpOnly: true,
-        // domain: "naks-donbass.ru",
-        // domain: "localhost",
         domain:
           process.env.NODE_ENV === "production"
             ? "naks-donbass.ru"
@@ -108,38 +95,35 @@ class UserController {
     }
   }
 
-  // async activate(req, res, next) {
-  //   try {
-  //     const activationLink = req.params.link;
-  //     await userService.activate(activationLink);
-  //     return res.redirect(process.env.CLIENT_URL);
-  //   } catch (e) {
-  //     next(e);
-  //   }
-  // }
+  async delete(req, res, next) {
+    try {
+      const id = req.params.id;
+      if (id) {
+        await userService.delete(id);
+        res.status(200).json({ message: "Пользователь успешно удален!" });
+      }
+    } catch (e) {
+      next(e);
+    }
+  }
 
   async refresh(req, res, next) {
-    console.log("user-controller/refresh req::: ", req);
-    console.log("user-controller/refresh req.cookies::: ", req.cookies);
+    // console.log("user-controller/refresh req::: ", req);
+    // console.log("user-controller/refresh req.cookies::: ", req.cookies);
     try {
       const { refreshToken } = req.cookies;
-      console.log("user-controller/refresh refreshToken===", refreshToken); // токен проходит
+      //console.log("user-controller/refresh refreshToken===", refreshToken); // токен проходит
 
       const userData = await userService.refresh(refreshToken);
-      console.log("user-controller/refresh userData===", userData); // сюда не доходит...
+      //console.log("user-controller/refresh userData===", userData); // сюда не доходит...
 
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        // secure: false,
-        // sameSite: "none",
-        // domain: "naks-donbass.ru",
-        // domain: "localhost",
         domain:
           process.env.NODE_ENV === "production"
             ? "naks-donbass.ru"
             : "localhost",
-        // path: "/api/auth",
       });
       return res.json(userData);
     } catch (e) {
@@ -149,6 +133,14 @@ class UserController {
 
   async getUsers(req, res, next) {
     try {
+      //создание новых ролей
+      // const userRole = new Role();
+      // const adminRole = new Role({ value: "admin" });
+      // const godRole = new Role({ value: "god" });
+      // await userRole.save();
+      // await adminRole.save();
+      // await godRole.save();
+
       const users = await userService.getAllUsers();
       return res.json(users);
     } catch (e) {

@@ -65,6 +65,8 @@ const schema = new Schema({
   thicknessScope: { type: String, required: true },
   diameterScope: { type: String, required: true },
   fluxScope: { type: String, required: true },
+
+  inserts: [{ type: Types.ObjectId, ref: "CertificateSub" }],
 });
 
 module.exports = model("Certificate", schema);
