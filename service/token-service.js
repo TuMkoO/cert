@@ -17,11 +17,11 @@ class TokenService {
   }
 
   validateAccessToken(token) {
-    console.log("token-service/ validateAccessToken token::: ", token);
+    // console.log("token-service/ validateAccessToken token::: ", token);
     try {
       //ОШИБКА ===> userData
       const userData = jwt.verify(token, config.get("jwtSecret")); // ERROR
-      console.log("token-service/ validateAccessToken userData::: ", userData);
+      // console.log("token-service/ validateAccessToken userData::: ", userData);
       return userData;
     } catch (e) {
       // console.log("validateAccessToken userData error!!!");

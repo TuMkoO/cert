@@ -7,8 +7,8 @@ module.exports = function (req, res, next) {
     // console.log("req.headers.authorization::: ", req.headers.authorization);
 
     const authorizationHeader = req.headers.authorization;
-    console.log("auth.middleware/req.headers:::", req.headers);
-    console.log("auth.middleware/authorizationHeader:::", authorizationHeader);
+    // console.log("auth.middleware/req.headers:::", req.headers);
+    // console.log("auth.middleware/authorizationHeader:::", authorizationHeader);
 
     if (!authorizationHeader) {
       // console.log("authorizationHeader===", authorizationHeader);
@@ -23,7 +23,7 @@ module.exports = function (req, res, next) {
       return next(ApiError.UnauthorizedError());
     }
 
-    console.log("auth.middleware/accessToken::: ", accessToken); // токен приходит
+    //console.log("auth.middleware/accessToken::: ", accessToken); // токен приходит
     const userData = tokenService.validateAccessToken(accessToken);
     if (!userData) {
       console.log("auth.middleware error 3");

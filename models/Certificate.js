@@ -17,7 +17,7 @@ const schema = new Schema({
   dateOldCert: { type: Date },
 
   work: { type: String, required: true },
-  workYears: { type: String, required: true },
+  workYears: { type: Number, required: true },
   qualifyingRank: { type: String, required: true },
   attestationType: { type: String, required: true },
 
