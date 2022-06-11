@@ -12,7 +12,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: config.get("clientUrl"),
+    origin: "http://edo.naks-donbass.ru",
   })
 );
 
